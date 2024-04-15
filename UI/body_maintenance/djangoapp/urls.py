@@ -13,7 +13,7 @@ from .view.job_profile import *
 app_name = 'djangoapp'
 
 urlpatterns = [
-    path('add_person_details', Person_details.as_view(), name='person_details'),
+    path('person_details', Person_details.as_view(), name='person_details'),
     path('date_details', Date_details.as_view(), name='date_details'),
     path('wakeup_sleep_time_details', Wakeup_sleep_time_details.as_view(), name='wakeup_sleep_time_details'),
     path('breakfast_details', Breakfast_details.as_view(), name='breakfast_details'),

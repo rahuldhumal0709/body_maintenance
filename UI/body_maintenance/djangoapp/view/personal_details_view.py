@@ -27,7 +27,7 @@ class Person_details(generics.ListCreateAPIView):
         try:
             data = request.data
 
-            persan_name = data["persan_name"]
+            person_name = data["person_name"]
             dob = data["dob"]
             gender = data["gender"]
             height = data["height"]
@@ -36,7 +36,7 @@ class Person_details(generics.ListCreateAPIView):
             current_address = data["current_address"]
             marital_status = data["marital_status"]
             person_details_obj = bm_person_info(
-                persan_name = persan_name,
+                person_name = person_name,
                 dob = dob,
                 gender = gender,
                 height = height,
@@ -151,7 +151,7 @@ class Weight_details(generics.ListCreateAPIView):
                 for i in person_weight_obj:
                     response_data.append({
                         "weight_id":i.pk,
-                        "person_name":i.person.name,
+                        "person_name":i.person_name.person_name,
                         "date":str(i.date.date),
                         "weight":i.weight
                         
@@ -179,7 +179,7 @@ class Weight_details(generics.ListCreateAPIView):
             for i in weight_data:
                 response_data.append({
                     "weight_id":i.pk,
-                    "person_name":i.person.name,
+                    "person_name":i.person_name.person_name,
                     "date":str(i.date.date),
                     "weight":i.weight
                     

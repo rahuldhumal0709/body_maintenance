@@ -289,7 +289,7 @@ class Dinner_details(generics.ListCreateAPIView):
                 for i in person_date_dinner_obj:
                     response_data.append({
                         "dinner_id":i.pk,
-                        "person_name":i.person.name,
+                        "person_name":i.person_name.person_name,
                         "date":str(i.date.date),
                         "dinner_menu":i.dinner_menu,
                         "quantity":i.quantity,
@@ -318,7 +318,7 @@ class Dinner_details(generics.ListCreateAPIView):
             for i in dinner_data:
                 response_data.append({
                     "dinner_id":i.pk,
-                    "person_name":i.person.name,
+                    "person_name":i.person_name.person_name,
                     "date":str(i.date.date),
                     "dinner_menu":i.dinner_menu,
                     "quantity":i.quantity,
@@ -419,7 +419,7 @@ class Calculate_total_calories(generics.ListCreateAPIView):
                     date = i.date.date
                     response_data.append({
                         "total_calories_id":i.pk,
-                        "person_name":i.person.name,
+                        "person_name":i.person_name.person_name,
                         "date":str(date),
                         "total_calories":f"{i.total_calories} cal",
                     })
@@ -447,7 +447,7 @@ class Calculate_total_calories(generics.ListCreateAPIView):
                 date = i.date.date
                 response_data.append({
                     "total_calories_id":i.pk,
-                    "person_name":i.person.name,
+                    "person_name":i.person_name.person_name,
                     "date":str(date),
                     "total_calories":f"{i.total_calories} cal",
                 })

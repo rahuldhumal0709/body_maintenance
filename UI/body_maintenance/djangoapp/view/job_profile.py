@@ -55,7 +55,7 @@ class Job_profile_details(generics.ListCreateAPIView):
                 company_name = company_name,
                 is_referral = is_referral,
                 referral_person_name = referral_person_name,
-                platform = platform,
+                platform_name = platform,
                 for_which_role = for_which_role,
                 resume = resume
             )

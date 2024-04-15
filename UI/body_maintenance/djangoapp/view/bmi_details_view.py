@@ -79,7 +79,7 @@ class BMI_details(generics.ListCreateAPIView):
                 for i in person_date_bmi_obj:
                     response_data.append({
                         "bmi_id":i.pk,
-                        "person_name":i.person.name,
+                        "person_name":i.person_name.person_name,
                         "date":str(i.date.date),
                         "height":i.height,
                         "weight":i.weight,
@@ -109,7 +109,7 @@ class BMI_details(generics.ListCreateAPIView):
             for i in bmi_data:
                 response_data.append({
                     "bmi_id":i.pk,
-                    "person_name":i.person.name,
+                    "person_name":i.person_name.person_name,
                     "date":str(i.date.date),
                     "height":i.height,
                     "weight":i.weight,

@@ -33,10 +33,10 @@ class Date_details(generics.ListCreateAPIView):
                 date = date,
             )
             date_obj.save()
-            logger.info(f"Details of date {str(date)} added successfully")
+            logger.info(f"Date {str(date)} added successfully")
             return HttpResponse(
                 json.dumps({"status":"success",
-                            "message": f"Details of date {str(date)} added successfully"}),
+                            "message": f"Date {str(date)} added successfully"}),
                 status=200,
                 content_type="application/json",
             )
@@ -136,12 +136,10 @@ class Wakeup_sleep_time_details(generics.ListCreateAPIView):
                 person_datetime_obj = bm_daily_wakeup_sleep_time.objects.filter(**filter_data).order_by('id')
                 # filter details using person_name_id or date or combination of both.
                 for i in person_datetime_obj:
-                    date = i.date.date
-                    person_name = i.person_name.person_name
                     response_data.append({
-                        "date_id":i.pk,
-                        "person_name":person_name,
-                        "date":str(date),
+                        "time_id":i.pk,
+                        "person_name":i.person_name.person_name,
+                        "date":str(i.date.date),
                         "wakeup_time":str(i.wakeup_time),
                         "sleep_time":str(i.sleep_time),
                     })
@@ -168,7 +166,7 @@ class Wakeup_sleep_time_details(generics.ListCreateAPIView):
             for i in time_obj:
                 date = i.date.date
                 response_data.append({
-                    "date_id":i.pk,
+                    "time_id":i.pk,
                     "person_name":i.person_name.person_name,
                     "date":str(date),
                     "wakeup_time":str(i.wakeup_time),
