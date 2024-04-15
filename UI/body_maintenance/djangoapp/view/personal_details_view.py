@@ -27,7 +27,7 @@ class Person_details(generics.ListCreateAPIView):
         try:
             data = request.data
 
-            name = data["name"]
+            persan_name = data["persan_name"]
             dob = data["dob"]
             gender = data["gender"]
             height = data["height"]
@@ -36,7 +36,7 @@ class Person_details(generics.ListCreateAPIView):
             current_address = data["current_address"]
             marital_status = data["marital_status"]
             person_details_obj = bm_person_info(
-                name = name,
+                persan_name = persan_name,
                 dob = dob,
                 gender = gender,
                 height = height,
