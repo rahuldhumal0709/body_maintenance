@@ -91,7 +91,7 @@ class Subject_all_details(generics.ListCreateAPIView):
             data = request.data
 
             person_name_id = bm_person_info.objects.get(pk=data["person_name_id"]).pk
-            date_id = bm_date.objects.get(pk=data["date_id"]).pk
+            date = data["date"]
             start_time = data["start_time"]
             end_time = data["end_time"]
             subject_name_id = data["subject_name_id"]
@@ -106,7 +106,7 @@ class Subject_all_details(generics.ListCreateAPIView):
 
             subject_all_details_obj = bm_subject_details(
                 person_name_id = person_name_id,
-                date_id = date_id,
+                date = date,
                 start_time = start_time,
                 end_time = end_time,
                 subject_name_id = subject_name_id,
@@ -151,7 +151,7 @@ class Subject_all_details(generics.ListCreateAPIView):
                     response_data.append({
                         "subject_all_id":i.pk,
                         "person_name":i.person_name.person_name,
-                        "date":str(i.date.date),
+                        "date":str(i.date),
                         "start_time":str(i.start_time),
                         "end_time":str(i.end_time),
                         "total_study_time_of_subject":str(total_study_time_of_subject),
@@ -183,13 +183,13 @@ class Subject_all_details(generics.ListCreateAPIView):
                     )
             subject_all_data = bm_subject_details.objects.all()
             for i in subject_all_data:
-                start_time = datetime.datetime.combine(i.date.date, i.start_time)
-                end_time = datetime.datetime.combine(i.date.date, i.end_time)
+                start_time = datetime.datetime.combine(i.date, i.start_time)
+                end_time = datetime.datetime.combine(i.date, i.end_time)
                 total_study_time_of_subject = end_time - start_time
                 response_data.append({
                     "subject_all_id":i.pk,
                     "person_name":i.person_name.person_name,
-                    "date":str(i.date.date),
+                    "date":str(i.date),
                     "start_time":str(i.start_time),
                     "end_time":str(i.end_time),
                     "total_study_time_of_subject":str(total_study_time_of_subject),

@@ -28,14 +28,14 @@ class Breakfast_details(generics.ListCreateAPIView):
             data = request.data
 
             person_name_id = data["person_name_id"]
-            date_id = data["date_id"]
+            date = data["date"]
             breakfast_meal = data["breakfast_meal"]
             quantity = data["quantity"]
             dish_calories = data["dish_calories"]
 
             breakfast_details_obj = bm_breakfast(
                 person_name_id = person_name_id,
-                date_id = date_id,
+                date = date,
                 breakfast_meal = breakfast_meal,
                 quantity = quantity,
                 dish_calories = dish_calories
@@ -72,7 +72,7 @@ class Breakfast_details(generics.ListCreateAPIView):
                     response_data.append({
                         "breakfast_id":i.pk,
                         "person_name":i.person_name.person_name,
-                        "date":str(i.date.date),
+                        "date":str(i.date),
                         "breakfast_meal":i.breakfast_meal,
                         "quantity":i.quantity,
                         "dish_calories":f"{i.dish_calories} cal"
@@ -101,7 +101,7 @@ class Breakfast_details(generics.ListCreateAPIView):
                 response_data.append({
                     "breakfast_id":i.pk,
                     "person_name":i.person_name.person_name,
-                    "date":str(i.date.date),
+                    "date":str(i.date),
                     "breakfast_meal":i.breakfast_meal,
                     "quantity":i.quantity,
                     "dish_calories":f"{i.dish_calories} cal"
@@ -137,14 +137,14 @@ class Lunch_details(generics.ListCreateAPIView):
             data = request.data
 
             person_name_id = data["person_name_id"]
-            date_id = data["date_id"]
+            date = data["date"]
             lunch_menu = data["lunch_menu"]
             quantity = data["quantity"]
             dish_calories = data["dish_calories"]
 
             lunch_details_obj = bm_lunch(
                 person_name_id = person_name_id,
-                date_id = date_id,
+                date = date,
                 lunch_menu = lunch_menu,
                 quantity = quantity,
                 dish_calories = dish_calories
@@ -181,7 +181,7 @@ class Lunch_details(generics.ListCreateAPIView):
                     response_data.append({
                         "lunch_id":i.pk,
                         "person_name":i.person_name.person_name,
-                        "date":str(i.date.date),
+                        "date":str(i.date),
                         "lunch_menu":i.lunch_menu,
                         "quantity":i.quantity,
                         "dish_calories":f"{i.dish_calories} cal"
@@ -210,7 +210,7 @@ class Lunch_details(generics.ListCreateAPIView):
                 response_data.append({
                     "lunch_id":i.pk,
                     "person_name":i.person_name.person_name,
-                    "date":str(i.date.date),
+                    "date":str(i.date),
                     "lunch_menu":i.lunch_menu,
                     "quantity":i.quantity,
                     "dish_calories":f"{i.dish_calories} cal"
@@ -246,14 +246,14 @@ class Dinner_details(generics.ListCreateAPIView):
             data = request.data
 
             person_name_id = data["person_name_id"]
-            date_id = data["date_id"]
+            date = data["date"]
             dinner_menu = data["dinner_menu"]
             quantity = data["quantity"]
             dish_calories = data["dish_calories"]
 
             dinner_details_obj = bm_dinner(
                 person_name_id = person_name_id,
-                date_id = date_id,
+                date = date,
                 dinner_menu = dinner_menu,
                 quantity = quantity,
                 dish_calories = dish_calories
@@ -290,7 +290,7 @@ class Dinner_details(generics.ListCreateAPIView):
                     response_data.append({
                         "dinner_id":i.pk,
                         "person_name":i.person_name.person_name,
-                        "date":str(i.date.date),
+                        "date":str(i.date),
                         "dinner_menu":i.dinner_menu,
                         "quantity":i.quantity,
                         "dish_calories":f"{i.dish_calories} cal"
@@ -319,7 +319,7 @@ class Dinner_details(generics.ListCreateAPIView):
                 response_data.append({
                     "dinner_id":i.pk,
                     "person_name":i.person_name.person_name,
-                    "date":str(i.date.date),
+                    "date":str(i.date),
                     "dinner_menu":i.dinner_menu,
                     "quantity":i.quantity,
                     "dish_calories":f"{i.dish_calories} cal"
@@ -355,21 +355,21 @@ class Calculate_total_calories(generics.ListCreateAPIView):
             data = request.data
 
             person_name_id = data["person_name_id"]
-            date_id = data["date_id"]
-            is_data_exist = bm_total_calories.objects.filter(person_name_id=person_name_id,date_id=date_id)
+            date = data["date"]
+            is_data_exist = bm_total_calories.objects.filter(person_name_id=person_name_id,date=date)
             if not is_data_exist:
                 breakfast_calories = 0
-                breakfast_calories_obj = bm_breakfast.objects.filter(person_name_id=person_name_id,date_id=date_id)
+                breakfast_calories_obj = bm_breakfast.objects.filter(person_name_id=person_name_id,date=date)
                 for i in breakfast_calories_obj:
                     breakfast_calories += i.dish_calories
 
                 lunch_calories = 0
-                lunch_calories_obj = bm_lunch.objects.filter(person_name_id=person_name_id,date_id=date_id)
+                lunch_calories_obj = bm_lunch.objects.filter(person_name_id=person_name_id,date=date)
                 for i in lunch_calories_obj:
                     lunch_calories += i.dish_calories
 
                 dinner_calories = 0
-                dinner_calories_obj = bm_dinner.objects.filter(person_name_id=person_name_id,date_id=date_id)
+                dinner_calories_obj = bm_dinner.objects.filter(person_name_id=person_name_id,date=date)
                 for i in dinner_calories_obj:
                     dinner_calories += i.dish_calories
 
@@ -377,7 +377,7 @@ class Calculate_total_calories(generics.ListCreateAPIView):
                 # print("total_cal : ",total_cal)
                 total_calories_obj = bm_total_calories(
                     person_name_id = bm_person_info.objects.get(pk=person_name_id).pk,
-                    date_id = bm_date.objects.get(pk=date_id).pk,
+                    date = date,
                     total_calories = total_cal,
                 )
                 total_calories_obj.save()
@@ -416,7 +416,7 @@ class Calculate_total_calories(generics.ListCreateAPIView):
                 person_total_cal_obj = bm_total_calories.objects.filter(**filter_data).order_by('id')
                 # filter details using person_name_id or date or combination of both.
                 for i in person_total_cal_obj:
-                    date = i.date.date
+                    date = i.date
                     response_data.append({
                         "total_calories_id":i.pk,
                         "person_name":i.person_name.person_name,
@@ -444,7 +444,7 @@ class Calculate_total_calories(generics.ListCreateAPIView):
                     )
             total_calories_data = bm_total_calories.objects.all()
             for i in total_calories_data:
-                date = i.date.date
+                date = i.date
                 response_data.append({
                     "total_calories_id":i.pk,
                     "person_name":i.person_name.person_name,

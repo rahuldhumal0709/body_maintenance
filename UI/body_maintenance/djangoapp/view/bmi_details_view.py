@@ -28,9 +28,9 @@ class BMI_details(generics.ListCreateAPIView):
             data = request.data
 
             person_name_id = bm_person_info.objects.get(pk=data["person_name_id"]).pk
-            date_id = bm_date.objects.get(pk=data["date_id"]).pk
+            date = data["date_id"]
             my_height = bm_person_info.objects.get(pk=person_name_id).height
-            my_weight = bm_weight.objects.filter(person_name_id=person_name_id,date_id=date_id).first().weight
+            my_weight = bm_weight.objects.filter(person_name_id=person_name_id,date=date).first().weight
             my_bmi = round(my_weight / ((my_height/100) ** 2), 2)
 
             if 19 <= my_bmi <= 24:
@@ -42,7 +42,7 @@ class BMI_details(generics.ListCreateAPIView):
 
             bmi_details_obj = bm_bmi(
                 person_name_id = person_name_id,
-                date_id = date_id,
+                date = date,
                 height = my_height,
                 weight = my_weight,
                 bmi = my_bmi,
@@ -80,7 +80,7 @@ class BMI_details(generics.ListCreateAPIView):
                     response_data.append({
                         "bmi_id":i.pk,
                         "person_name":i.person_name.person_name,
-                        "date":str(i.date.date),
+                        "date":str(i.date),
                         "height":i.height,
                         "weight":i.weight,
                         "BMI":f"{i.bmi} kg/m2",
@@ -110,7 +110,7 @@ class BMI_details(generics.ListCreateAPIView):
                 response_data.append({
                     "bmi_id":i.pk,
                     "person_name":i.person_name.person_name,
-                    "date":str(i.date.date),
+                    "date":str(i.date),
                     "height":i.height,
                     "weight":i.weight,
                     "BMI":f"{i.bmi} kg/m2",

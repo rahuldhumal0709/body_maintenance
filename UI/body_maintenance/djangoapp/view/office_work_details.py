@@ -28,7 +28,7 @@ class Office_working_details(generics.ListCreateAPIView):
             data = request.data
 
             person_name_id = bm_person_info.objects.get(pk=data["person_name_id"]).pk
-            date_id = bm_date.objects.get(pk=data["date_id"]).pk
+            date = data["date"]
             start_time = data["start_time"]
             end_time = data["end_time"]
             work = data["work"]
@@ -37,7 +37,7 @@ class Office_working_details(generics.ListCreateAPIView):
 
             office_details_obj = bm_office(
                 person_name_id = person_name_id,
-                date_id = date_id,
+                date = date,
                 start_time = start_time,
                 end_time = end_time,
                 work = work,
@@ -73,13 +73,13 @@ class Office_working_details(generics.ListCreateAPIView):
                 person_date_office_obj = bm_office.objects.filter(**filter_data).order_by('id')
                 # filter details using person_name_id or date or combination of both.
                 for i in person_date_office_obj:
-                    start_time = datetime.datetime.combine(i.date.date, i.start_time)
-                    end_time = datetime.datetime.combine(i.date.date, i.end_time)
+                    start_time = datetime.datetime.combine(i.date, i.start_time)
+                    end_time = datetime.datetime.combine(i.date, i.end_time)
                     total_working_time = end_time - start_time
                     response_data.append({
                         "office_id":i.pk,
                         "person_name":i.person_name.person_name,
-                        "date":str(i.date.date),
+                        "date":str(i.date),
                         "start_time":str(i.start_time),
                         "end_time":str(i.end_time),
                         "total_working_time":str(total_working_time),
@@ -108,13 +108,13 @@ class Office_working_details(generics.ListCreateAPIView):
                     )
             office_data = bm_office.objects.all()
             for i in office_data:
-                start_time = datetime.datetime.combine(i.date.date, i.start_time)
-                end_time = datetime.datetime.combine(i.date.date, i.end_time)
+                start_time = datetime.datetime.combine(i.date, i.start_time)
+                end_time = datetime.datetime.combine(i.date, i.end_time)
                 total_working_time = end_time - start_time
                 response_data.append({
                     "office_id":i.pk,
                     "person_name":i.person_name.person_name,
-                    "date":str(i.date.date),
+                    "date":str(i.date),
                     "start_time":str(start_time),
                     "end_time":str(end_time),
                     "total_working_time":str(total_working_time),

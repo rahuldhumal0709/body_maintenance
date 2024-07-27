@@ -28,7 +28,7 @@ class Exercise_details(generics.ListCreateAPIView):
             data = request.data
 
             person_name_id = data["person_name_id"]
-            date_id = data["date_id"]
+            date = data["date"]
             start_time = data["start_time"]
             end_time = data["end_time"]
             sets_of_parts = data["sets_of_parts"]
@@ -36,7 +36,7 @@ class Exercise_details(generics.ListCreateAPIView):
 
             exercise_details_obj = bm_exercise(
                 person_name_id = bm_person_info.objects.get(pk=person_name_id).pk,
-                date_id = bm_date.objects.get(pk=date_id).pk,
+                date = date,
                 start_time = start_time,
                 end_time = end_time,
                 sets_of_parts = sets_of_parts,
@@ -74,7 +74,7 @@ class Exercise_details(generics.ListCreateAPIView):
                     response_data.append({
                         "exercise_id":i.pk,
                         "person_name":i.person_name.person_name,
-                        "date":str(i.date.date),
+                        "date":str(i.date),
                         "start_time":str(i.start_time),
                         "end_time":str(i.end_time),
                         "sets_of_parts":i.sets_of_parts,
@@ -107,7 +107,7 @@ class Exercise_details(generics.ListCreateAPIView):
                 response_data.append({
                     "exercise_id":i.pk,
                     "person_name":i.person_name.person_name,
-                    "date":str(i.date.date),
+                    "date":str(i.date),
                     "start_time":str(start_time),
                     "end_time":str(end_time),
                     # "total_time":str(total_time),

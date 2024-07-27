@@ -113,11 +113,11 @@ class Weight_details(generics.ListCreateAPIView):
             data = request.data
 
             person_name_id = data["person_name_id"]
-            date_id = data["date_id"]
+            date = data["date"]
             weight_of_person = data["weight"]
             weight_details_obj = bm_weight(
                 person_name_id = bm_person_info.objects.get(pk=person_name_id).pk,
-                date_id = bm_date.objects.get(pk=date_id).pk,
+                date = date,
                 weight = weight_of_person
             )
             weight_details_obj.save()
@@ -152,7 +152,7 @@ class Weight_details(generics.ListCreateAPIView):
                     response_data.append({
                         "weight_id":i.pk,
                         "person_name":i.person_name.person_name,
-                        "date":str(i.date.date),
+                        "date":str(i.date),
                         "weight":i.weight
                         
                     })
@@ -180,7 +180,7 @@ class Weight_details(generics.ListCreateAPIView):
                 response_data.append({
                     "weight_id":i.pk,
                     "person_name":i.person_name.person_name,
-                    "date":str(i.date.date),
+                    "date":str(i.date),
                     "weight":i.weight
                     
                 })
