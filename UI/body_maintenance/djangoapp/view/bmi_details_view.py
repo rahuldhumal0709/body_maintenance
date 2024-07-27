@@ -133,3 +133,4 @@ class BMI_details(generics.ListCreateAPIView):
                 status=200,
                 content_type="application/json",
             )
+
