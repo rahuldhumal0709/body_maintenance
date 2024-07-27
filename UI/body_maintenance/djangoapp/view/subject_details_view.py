@@ -145,8 +145,8 @@ class Subject_all_details(generics.ListCreateAPIView):
                 person_date_subject_obj = bm_subject_details.objects.filter(**filter_data).order_by('id')
                 # filter details using person_name_id or date or combination of both.
                 for i in person_date_subject_obj:
-                    start_time = datetime.datetime.combine(i.date.date, i.start_time)
-                    end_time = datetime.datetime.combine(i.date.date, i.end_time)
+                    start_time = datetime.datetime.combine(i.date, i.start_time)
+                    end_time = datetime.datetime.combine(i.date, i.end_time)
                     total_study_time_of_subject = end_time - start_time
                     response_data.append({
                         "subject_all_id":i.pk,
