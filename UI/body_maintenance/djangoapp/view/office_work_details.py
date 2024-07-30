@@ -67,9 +67,10 @@ class Office_working_details(generics.ListCreateAPIView):
         try:
             response_data = []
             data = request.GET
-            isinstance_obj = isinstance(data, dict)
-            if isinstance_obj and data:
+            user = request.user
+            if user.is_authenticated:
                 filter_data = {key: data[key] for key in data.keys()}
+                filter_data['user'] = user
                 person_date_office_obj = bm_office.objects.filter(**filter_data).order_by('id')
                 # filter details using person_name_id or date or combination of both.
                 for i in person_date_office_obj:
@@ -107,31 +108,6 @@ class Office_working_details(generics.ListCreateAPIView):
                         status=200,
                         content_type="application/json",
                     )
-            office_data = bm_office.objects.all()
-            for i in office_data:
-                start_time = datetime.datetime.combine(i.date, i.start_time)
-                end_time = datetime.datetime.combine(i.date, i.end_time)
-                total_working_time = end_time - start_time
-                response_data.append({
-                    "office_id":i.pk,
-                    "full_name":f'{i.user.first_name} {i.user.last_name}',
-                    "date":str(i.date),
-                    "start_time":str(start_time),
-                    "end_time":str(end_time),
-                    "total_working_time":str(total_working_time),
-                    "work":i.work,
-                    "description":i.description,
-                    "efforts":f"{i.efforts} %"
-                    })
-            logger.info(f"Working in office details retrieved successfully")
-            return HttpResponse(
-                json.dumps({"status":"success",
-                            "message": f"Office work details retrieved successfully",
-                            "total":len(response_data),
-                            "data":response_data}),
-                status=200,
-                content_type="application/json",
-            )
         except Exception as msg:
             logger.error(msg)
             traceback.print_exc()

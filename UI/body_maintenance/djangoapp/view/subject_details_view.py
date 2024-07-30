@@ -139,9 +139,10 @@ class Subject_all_details(generics.ListCreateAPIView):
         try:
             response_data = []
             data = request.GET
-            isinstance_obj = isinstance(data, dict)
-            if isinstance_obj and data:
+            user = request.user
+            if user.is_authenticated:
                 filter_data = {key: data[key] for key in data.keys()}
+                filter_data['user'] = user
                 person_date_subject_obj = bm_subject_details.objects.filter(**filter_data).order_by('id')
                 # filter details using person_name_id or date or combination of both.
                 for i in person_date_subject_obj:
@@ -150,7 +151,7 @@ class Subject_all_details(generics.ListCreateAPIView):
                     total_study_time_of_subject = end_time - start_time
                     response_data.append({
                         "subject_all_id":i.pk,
-                        "user_id":f'{i.user.first_name} {i.user.last_name}',
+                        "full_name":f'{i.user.first_name} {i.user.last_name}',
                         "date":str(i.date),
                         "start_time":str(i.start_time),
                         "end_time":str(i.end_time),
@@ -182,34 +183,6 @@ class Subject_all_details(generics.ListCreateAPIView):
                         status=200,
                         content_type="application/json",
                     )
-            subject_all_data = bm_subject_details.objects.all()
-            for i in subject_all_data:
-                start_time = datetime.datetime.combine(i.date, i.start_time)
-                end_time = datetime.datetime.combine(i.date, i.end_time)
-                total_study_time_of_subject = end_time - start_time
-                response_data.append({
-                    "subject_all_id":i.pk,
-                    "full_name":f'{i.user.first_name} {i.user.last_name}',
-                    "date":str(i.date),
-                    "start_time":str(i.start_time),
-                    "end_time":str(i.end_time),
-                    "total_study_time_of_subject":str(total_study_time_of_subject),
-                    "subject_name":i.subject_name.subject_name,
-                    "topic":i.topic,
-                    "description":i.description,
-                    "efforts":f"{i.efforts} %",
-                    "is_any_que_solved":i.is_any_que_solved,
-                    "how_many_que":i.how_many_que
-                })
-            logger.info(f"Subject details retrieved successfully")
-            return HttpResponse(
-                json.dumps({"status":"success",
-                            "message": f"Subject details retrieved successfully",
-                            "total":len(response_data),
-                            "data":response_data}),
-                status=200,
-                content_type="application/json",
-            )
         except Exception as msg:
             logger.error(msg)
             traceback.print_exc()

@@ -61,9 +61,10 @@ class Breakfast_details(generics.ListCreateAPIView):
         try:
             response_data = []
             data = request.GET
-            isinstance_obj = isinstance(data, dict)
-            if isinstance_obj and data:
+            user = request.user
+            if user.is_authenticated:
                 filter_data = {key: data[key] for key in data.keys()}
+                filter_data['user'] = user
                 person_date_breakfast_obj = bm_breakfast.objects.filter(**filter_data).order_by('id')
                 # filter details using person_name_id or date or combination of both.
                 for i in person_date_breakfast_obj:
@@ -94,24 +95,6 @@ class Breakfast_details(generics.ListCreateAPIView):
                         status=200,
                         content_type="application/json",
                     )
-            breakfast_data = bm_breakfast.objects.all()
-            for i in breakfast_data:
-                response_data.append({
-                    "breakfast_id":i.pk,
-                    "full_name":f'{i.user.first_name} {i.user.last_name}',
-                    "date":str(i.date),
-                    "breakfast_meal":i.breakfast_meal,
-                    "description":i.description
-                })
-            logger.info(f"Breakfast details retrieved successfully")
-            return HttpResponse(
-                json.dumps({"status":"success",
-                            "message": "Breakfast details retrieved successfully",
-                            "total":len(response_data),
-                            "data":response_data}),
-                status=200,
-                content_type="application/json",
-            )
         except Exception as msg:
             logger.error(msg)
             traceback.print_exc()
@@ -168,9 +151,10 @@ class Lunch_details(generics.ListCreateAPIView):
         try:
             response_data = []
             data = request.GET
-            isinstance_obj = isinstance(data, dict)
-            if isinstance_obj and data:
+            user = request.user
+            if user.is_authenticated:
                 filter_data = {key: data[key] for key in data.keys()}
+                filter_data['user'] = user
                 person_date_lunch_obj = bm_lunch.objects.filter(**filter_data).order_by('id')
                 # filter details using person_name_id or date or combination of both.
                 for i in person_date_lunch_obj:
@@ -201,24 +185,6 @@ class Lunch_details(generics.ListCreateAPIView):
                         status=200,
                         content_type="application/json",
                     )
-            lunch_data = bm_lunch.objects.all()
-            for i in lunch_data:
-                response_data.append({
-                    "lunch_id":i.pk,
-                    "full_name":f'{i.user.first_name} {i.user.last_name}',
-                    "date":str(i.date),
-                    "lunch_menu":i.lunch_menu,
-                    "description":i.description
-                })
-            logger.info(f"Lunch details retrieved successfully")
-            return HttpResponse(
-                json.dumps({"status":"success",
-                            "message": f"Lunch details retrieved successfully",
-                            "total":len(response_data),
-                            "data":response_data}),
-                status=200,
-                content_type="application/json",
-            )
         except Exception as msg:
             logger.error(msg)
             traceback.print_exc()
@@ -275,9 +241,10 @@ class Dinner_details(generics.ListCreateAPIView):
         try:
             response_data = []
             data = request.GET
-            isinstance_obj = isinstance(data, dict)
-            if isinstance_obj and data:
+            user = request.user
+            if user.is_authenticated:
                 filter_data = {key: data[key] for key in data.keys()}
+                filter_data['user'] = user
                 person_date_dinner_obj = bm_dinner.objects.filter(**filter_data).order_by('id')
                 # filter details using person_name_id or date or combination of both.
                 for i in person_date_dinner_obj:
@@ -308,24 +275,6 @@ class Dinner_details(generics.ListCreateAPIView):
                         status=200,
                         content_type="application/json",
                     )
-            dinner_data = bm_dinner.objects.all()
-            for i in dinner_data:
-                response_data.append({
-                    "dinner_id":i.pk,
-                    "full_name":f'{i.user.first_name} {i.user.last_name}',
-                    "date":str(i.date),
-                    "dinner_menu":i.dinner_menu,
-                    "description":i.description
-                })
-            logger.info(f"Dinner details retrieved successfully")
-            return HttpResponse(
-                json.dumps({"status":"success",
-                            "message": f"Dinner details retrieved successfully",
-                            "total":len(response_data),
-                            "data":response_data}),
-                status=200,
-                content_type="application/json",
-            )
         except Exception as msg:
             logger.error(msg)
             traceback.print_exc()

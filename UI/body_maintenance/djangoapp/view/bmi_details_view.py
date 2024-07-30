@@ -71,9 +71,10 @@ class BMI_details(generics.ListCreateAPIView):
         try:
             response_data = []
             data = request.GET
-            isinstance_obj = isinstance(data, dict)
-            if isinstance_obj and data:
+            user = request.user
+            if user.is_authenticated:
                 filter_data = {key: data[key] for key in data.keys()}
+                filter_data['user'] = user
                 person_date_bmi_obj = bm_bmi.objects.filter(**filter_data).order_by('id')
                 # filter details using person_name_id or date or combination of both.
                 for i in person_date_bmi_obj:
@@ -106,26 +107,6 @@ class BMI_details(generics.ListCreateAPIView):
                         status=200,
                         content_type="application/json",
                     )
-            bmi_data = bm_bmi.objects.all()
-            for i in bmi_data:
-                response_data.append({
-                    "bmi_id":i.pk,
-                    "full_name":f'{i.user.first_name} {i.user.last_name}',
-                    "date":str(i.date),
-                    "height":i.height,
-                    "weight":i.weight,
-                    "BMI":f"{i.bmi} kg/m2",
-                    "result":i.result
-                })
-            logger.info(f"BMI details retrieved successfully")
-            return HttpResponse(
-                json.dumps({"status":"success",
-                            "message": "BMI details retrieved successfully",
-                            "total":len(response_data),
-                            "data":response_data}),
-                status=200,
-                content_type="application/json",
-            )
         except Exception as msg:
             logger.error(msg)
             traceback.print_exc()

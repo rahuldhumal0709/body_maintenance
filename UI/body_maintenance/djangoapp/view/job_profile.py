@@ -82,9 +82,10 @@ class Job_profile_details(generics.ListCreateAPIView):
         try:
             response_data = []
             data = request.GET
-            isinstance_obj = isinstance(data, dict)
-            if isinstance_obj and data:
+            user = request.user
+            if user.is_authenticated:
                 filter_data = {key: data[key] for key in data.keys()}
+                filter_data['user'] = user
                 person_date_job_profile_obj = bm_job_profile.objects.filter(**filter_data).order_by('id')
                 # filter details using person_name_id or date or combination of both.
                 for i in person_date_job_profile_obj:
@@ -119,28 +120,6 @@ class Job_profile_details(generics.ListCreateAPIView):
                         status=200,
                         content_type="application/json",
                     )
-            job_profile_data = bm_job_profile.objects.all()
-            for i in job_profile_data:
-                response_data.append({
-                    "job_profile_id":i.pk,
-                    "user_id":f'{i.user.first_name} {i.user.last_name}',
-                    "date":str(i.date),
-                    "company_name":i.company_name,
-                    "is_referral":i.is_referral,
-                    "referral_person_name":i.referral_person_name,
-                    "platform_name":i.platform_name,
-                    "for_which_role":i.for_which_role,
-                    "resume":str(i.resume)
-                    })
-            logger.info(f"Job profile details retrieved successfully")
-            return HttpResponse(
-                json.dumps({"status":"success",
-                            "message": "Job profile details retrieved successfully",
-                            "total":len(response_data),
-                            "data":response_data}),
-                status=200,
-                content_type="application/json",
-            )
         except Exception as msg:
             logger.error(msg)
             traceback.print_exc()
