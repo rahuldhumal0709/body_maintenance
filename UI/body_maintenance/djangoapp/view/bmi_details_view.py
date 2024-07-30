@@ -27,10 +27,10 @@ class BMI_details(generics.ListCreateAPIView):
         try:
             data = request.data
 
-            person_name_id = bm_person_info.objects.get(pk=data["person_name_id"]).pk
+            user_id = User.objects.get(id=data['user_id']).pk
             date = data["date_id"]
-            my_height = bm_person_info.objects.get(pk=person_name_id).height
-            my_weight = bm_weight.objects.filter(person_name_id=person_name_id,date=date).first().weight
+            my_height = bm_person_info.objects.get(user_id=user_id).height
+            my_weight = bm_weight.objects.filter(user_id=user_id,date=date).first().weight
             my_bmi = round(my_weight / ((my_height/100) ** 2), 2)
 
             if 19 <= my_bmi <= 24:
@@ -41,7 +41,7 @@ class BMI_details(generics.ListCreateAPIView):
                 result = 'Overweight'
 
             bmi_details_obj = bm_bmi(
-                person_name_id = person_name_id,
+                user_id = user_id,
                 date = date,
                 height = my_height,
                 weight = my_weight,
@@ -79,7 +79,7 @@ class BMI_details(generics.ListCreateAPIView):
                 for i in person_date_bmi_obj:
                     response_data.append({
                         "bmi_id":i.pk,
-                        "person_name":i.person_name.person_name,
+                        "user_id":f'{i.user.first_name} {i.user.last_name}',
                         "date":str(i.date),
                         "height":i.height,
                         "weight":i.weight,
@@ -109,7 +109,7 @@ class BMI_details(generics.ListCreateAPIView):
             for i in bmi_data:
                 response_data.append({
                     "bmi_id":i.pk,
-                    "person_name":i.person_name.person_name,
+                    "user_id":f'{i.user.first_name} {i.user.last_name}',
                     "date":str(i.date),
                     "height":i.height,
                     "weight":i.weight,

@@ -90,7 +90,7 @@ class Subject_all_details(generics.ListCreateAPIView):
         try:
             data = request.data
 
-            person_name_id = bm_person_info.objects.get(pk=data["person_name_id"]).pk
+            user_id = User.objects.get(id=data['user_id']).pk
             date = data["date"]
             start_time = data["start_time"]
             end_time = data["end_time"]
@@ -105,7 +105,7 @@ class Subject_all_details(generics.ListCreateAPIView):
                 how_many_que = 0
 
             subject_all_details_obj = bm_subject_details(
-                person_name_id = person_name_id,
+                user_id = user_id,
                 date = date,
                 start_time = start_time,
                 end_time = end_time,
@@ -150,7 +150,7 @@ class Subject_all_details(generics.ListCreateAPIView):
                     total_study_time_of_subject = end_time - start_time
                     response_data.append({
                         "subject_all_id":i.pk,
-                        "person_name":i.person_name.person_name,
+                        "user_id":f'{i.user.first_name} {i.user.last_name}',
                         "date":str(i.date),
                         "start_time":str(i.start_time),
                         "end_time":str(i.end_time),
@@ -188,7 +188,7 @@ class Subject_all_details(generics.ListCreateAPIView):
                 total_study_time_of_subject = end_time - start_time
                 response_data.append({
                     "subject_all_id":i.pk,
-                    "person_name":i.person_name.person_name,
+                    "user_id":f'{i.user.first_name} {i.user.last_name}',
                     "date":str(i.date),
                     "start_time":str(i.start_time),
                     "end_time":str(i.end_time),

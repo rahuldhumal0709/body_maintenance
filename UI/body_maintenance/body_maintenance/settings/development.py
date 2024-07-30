@@ -53,7 +53,7 @@ LOGGING ={
         'file': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': '/home/nexgensis/rahul/my_projects/daily_vitality/body_maintenance/UI/iot_apps_logs/iot.log',
+            'filename': '/home/nexgensis/rahul/my_projects/body_maintenance/body_maintenance/UI/iot_apps_logs/iot.log',
             'formatter': 'simple',
             'maxBytes':15*1024*1024, #max 15Mb file
             'backupCount': 5,

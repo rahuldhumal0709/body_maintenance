@@ -29,7 +29,7 @@ class Job_profile_details(generics.ListCreateAPIView):
         try:
             data = request.data
 
-            person_name_id = bm_person_info.objects.get(pk=data["person_name_id"]).pk
+            user_id = User.objects.get(id=data['user_id']).pk
             date = data["date"]
             company_name = data["company_name"]
             is_referral = data["is_referral"]
@@ -50,7 +50,7 @@ class Job_profile_details(generics.ListCreateAPIView):
                 resume = ''
             # path = os.path.join(settings.MEDIA_ROOT)
             job_profile_details_obj = bm_job_profile(
-                person_name_id = person_name_id,
+                user_id = user_id,
                 date = date,
                 company_name = company_name,
                 is_referral = is_referral,
@@ -90,7 +90,7 @@ class Job_profile_details(generics.ListCreateAPIView):
                 for i in person_date_job_profile_obj:
                     response_data.append({
                         "job_profile_id":i.pk,
-                        "person_name":i.person_name.person_name,
+                        "user_id":f'{i.user.first_name} {i.user.last_name}',
                         "date":str(i.date),
                         "company_name":i.company_name,
                         "is_referral":i.is_referral,
@@ -122,7 +122,7 @@ class Job_profile_details(generics.ListCreateAPIView):
             for i in job_profile_data:
                 response_data.append({
                     "job_profile_id":i.pk,
-                    "person_name":i.person_name.person_name,
+                    "user_id":f'{i.user.first_name} {i.user.last_name}',
                     "date":str(i.date),
                     "company_name":i.company_name,
                     "is_referral":i.is_referral,

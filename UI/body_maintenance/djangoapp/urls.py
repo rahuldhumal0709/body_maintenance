@@ -13,13 +13,15 @@ from .view.job_profile import *
 app_name = 'djangoapp'
 
 urlpatterns = [
+    path('signup/', SignUpView.as_view(), name='signup'),
+    path('signin/', SignInView.as_view(), name='signin'),
     path('person_details', Person_details.as_view(), name='person_details'),
     # path('date_details', Date_details.as_view(), name='date_details'),
     # path('wakeup_sleep_time_details', Wakeup_sleep_time_details.as_view(), name='wakeup_sleep_time_details'),
     path('breakfast_details', Breakfast_details.as_view(), name='breakfast_details'),
     path('lunch_details', Lunch_details.as_view(), name='lunch_details'),
     path('dinner_details', Dinner_details.as_view(), name='dinner_details'),
-    path('calculate_total_calories', Calculate_total_calories.as_view(), name='calculate_total_calories'),
+    # path('calculate_total_calories', Calculate_total_calories.as_view(), name='calculate_total_calories'),
     path('weight_details', Weight_details.as_view(), name='weight_details'),
     path('exercise_details',Exercise_details.as_view(), name='exercise_details'),
     path('bmi_details',BMI_details.as_view(), name='bmi_details'),

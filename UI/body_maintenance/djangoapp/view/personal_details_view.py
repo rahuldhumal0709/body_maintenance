@@ -26,8 +26,9 @@ class Person_details(generics.ListCreateAPIView):
         """Adding Person Details"""
         try:
             data = request.data
-
-            person_name = data["person_name"]
+            user_id = User.objects.get(id=data['user_id']).pk
+            first_name = data["first_name"]
+            last_name = data["last_name"]
             dob = data["dob"]
             gender = data["gender"]
             height = data["height"]
@@ -36,7 +37,9 @@ class Person_details(generics.ListCreateAPIView):
             current_address = data["current_address"]
             marital_status = data["marital_status"]
             person_details_obj = bm_person_info(
-                person_name = person_name,
+                user_id = user_id,
+                first_name = first_name,
+                last_name = last_name,
                 dob = dob,
                 gender = gender,
                 height = height,
@@ -46,7 +49,8 @@ class Person_details(generics.ListCreateAPIView):
                 marital_status = marital_status
             )
             person_details_obj.save()
-            logger.info("Person details added successfully")
+            User.objects.filter(id=user_id).update(first_name=first_name,last_name=last_name)
+            logger.info("Personal details added successfully")
             return HttpResponse(
                 json.dumps({"status":"success",
                             "message": "Person details added successfully"}),
@@ -73,7 +77,8 @@ class Person_details(generics.ListCreateAPIView):
                 gender = gender_choices.get(i.gender)
                 response_data.append({
                     "person_id":i.pk,
-                    "person_name":i.person_name,
+                    "user_name":i.user.username,
+                    "full_name":f'{i.first_name} {i.last_name}',
                     "date_of_birth":str(i.dob),
                     "gender":gender,
                     "height":f"{i.height} cm",
@@ -112,11 +117,11 @@ class Weight_details(generics.ListCreateAPIView):
         try:
             data = request.data
 
-            person_name_id = data["person_name_id"]
+            user_id = User.objects.get(id=data['user_id']).pk
             date = data["date"]
             weight_of_person = data["weight"]
             weight_details_obj = bm_weight(
-                person_name_id = bm_person_info.objects.get(pk=person_name_id).pk,
+                user_id = user_id,
                 date = date,
                 weight = weight_of_person
             )
@@ -151,7 +156,7 @@ class Weight_details(generics.ListCreateAPIView):
                 for i in person_weight_obj:
                     response_data.append({
                         "weight_id":i.pk,
-                        "person_name":i.person_name.person_name,
+                        "user_id":f'{i.user.first_name} {i.user.last_name}',
                         "date":str(i.date),
                         "weight":i.weight
                         
@@ -179,7 +184,7 @@ class Weight_details(generics.ListCreateAPIView):
             for i in weight_data:
                 response_data.append({
                     "weight_id":i.pk,
-                    "person_name":i.person_name.person_name,
+                    "user_id":f'{i.user.first_name} {i.user.last_name}',
                     "date":str(i.date),
                     "weight":i.weight
                     

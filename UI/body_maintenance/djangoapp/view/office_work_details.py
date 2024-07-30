@@ -27,7 +27,7 @@ class Office_working_details(generics.ListCreateAPIView):
         try:
             data = request.data
 
-            person_name_id = bm_person_info.objects.get(pk=data["person_name_id"]).pk
+            user_id = User.objects.get(id=data['user_id']).pk
             date = data["date"]
             start_time = data["start_time"]
             end_time = data["end_time"]
@@ -36,7 +36,7 @@ class Office_working_details(generics.ListCreateAPIView):
             efforts = data["efforts"]
 
             office_details_obj = bm_office(
-                person_name_id = person_name_id,
+                user_id = user_id,
                 date = date,
                 start_time = start_time,
                 end_time = end_time,
@@ -78,7 +78,7 @@ class Office_working_details(generics.ListCreateAPIView):
                     total_working_time = end_time - start_time
                     response_data.append({
                         "office_id":i.pk,
-                        "person_name":i.person_name.person_name,
+                        "user_id":f'{i.user.first_name} {i.user.last_name}',
                         "date":str(i.date),
                         "start_time":str(i.start_time),
                         "end_time":str(i.end_time),
@@ -113,7 +113,7 @@ class Office_working_details(generics.ListCreateAPIView):
                 total_working_time = end_time - start_time
                 response_data.append({
                     "office_id":i.pk,
-                    "person_name":i.person_name.person_name,
+                    "user_id":f'{i.user.first_name} {i.user.last_name}',
                     "date":str(i.date),
                     "start_time":str(start_time),
                     "end_time":str(end_time),
