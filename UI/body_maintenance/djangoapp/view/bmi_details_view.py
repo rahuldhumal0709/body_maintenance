@@ -79,7 +79,7 @@ class BMI_details(generics.ListCreateAPIView):
                 for i in person_date_bmi_obj:
                     response_data.append({
                         "bmi_id":i.pk,
-                        "user_id":f'{i.user.first_name} {i.user.last_name}',
+                        "full_name":f'{i.user.first_name} {i.user.last_name}',
                         "date":str(i.date),
                         "height":i.height,
                         "weight":i.weight,
@@ -100,7 +100,8 @@ class BMI_details(generics.ListCreateAPIView):
                     logger.info(f"Details of given input retrieved successfully")
                     return HttpResponse(
                         json.dumps({"status":"success",
-                                    "message": f"Details of given input retrieved successfully",
+                                    "message": "Details of given input retrieved successfully",
+                                    "total":len(response_data),
                                     "data":response_data}),
                         status=200,
                         content_type="application/json",
@@ -109,7 +110,7 @@ class BMI_details(generics.ListCreateAPIView):
             for i in bmi_data:
                 response_data.append({
                     "bmi_id":i.pk,
-                    "user_id":f'{i.user.first_name} {i.user.last_name}',
+                    "full_name":f'{i.user.first_name} {i.user.last_name}',
                     "date":str(i.date),
                     "height":i.height,
                     "weight":i.weight,
@@ -119,7 +120,8 @@ class BMI_details(generics.ListCreateAPIView):
             logger.info(f"BMI details retrieved successfully")
             return HttpResponse(
                 json.dumps({"status":"success",
-                            "message": f"BMI details retrieved successfully",
+                            "message": "BMI details retrieved successfully",
+                            "total":len(response_data),
                             "data":response_data}),
                 status=200,
                 content_type="application/json",

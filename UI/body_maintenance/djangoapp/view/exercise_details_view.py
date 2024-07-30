@@ -73,7 +73,7 @@ class Exercise_details(generics.ListCreateAPIView):
                 for i in person_date_exercise_obj:
                     response_data.append({
                         "exercise_id":i.pk,
-                        "user_id":f'{i.user.first_name} {i.user.last_name}',
+                        "full_name":f'{i.user.first_name} {i.user.last_name}',
                         "date":str(i.date),
                         "start_time":str(i.start_time),
                         "end_time":str(i.end_time),
@@ -94,7 +94,8 @@ class Exercise_details(generics.ListCreateAPIView):
                     logger.info(f"Details of given input retrieved successfully")
                     return HttpResponse(
                         json.dumps({"status":"success",
-                                    "message": f"Details of given input retrieved successfully",
+                                    "message": "Details of given input retrieved successfully",
+                                    "total":len(response_data),
                                     "data":response_data}),
                         status=200,
                         content_type="application/json",
@@ -106,7 +107,7 @@ class Exercise_details(generics.ListCreateAPIView):
                 # total_time = datetime.time(end_time)-datetime.time(start_time)
                 response_data.append({
                     "exercise_id":i.pk,
-                    "user_id":f'{i.user.first_name} {i.user.last_name}',
+                    "full_name":f'{i.user.first_name} {i.user.last_name}',
                     "date":str(i.date),
                     "start_time":str(start_time),
                     "end_time":str(end_time),
@@ -117,7 +118,8 @@ class Exercise_details(generics.ListCreateAPIView):
             logger.info(f"Exercise details retrieved successfully")
             return HttpResponse(
                 json.dumps({"status":"success",
-                            "message": f"Exercise details retrieved successfully",
+                            "message": "Exercise details retrieved successfully",
+                            "total":len(response_data),
                             "data":response_data}),
                 status=200,
                 content_type="application/json",

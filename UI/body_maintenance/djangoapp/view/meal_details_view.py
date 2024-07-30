@@ -42,7 +42,7 @@ class Breakfast_details(generics.ListCreateAPIView):
             logger.info(f"Breakfast added successfully")
             return HttpResponse(
                 json.dumps({"status":"success",
-                            "message": f"Breakfast added successfully"}),
+                            "message": "Breakfast item added successfully"}),
                 status=200,
                 content_type="application/json",
             )
@@ -69,7 +69,7 @@ class Breakfast_details(generics.ListCreateAPIView):
                 for i in person_date_breakfast_obj:
                     response_data.append({
                         "breakfast_id":i.pk,
-                        "user_id":f'{i.user.first_name} {i.user.last_name}',
+                        "full_name":f'{i.user.first_name} {i.user.last_name}',
                         "date":str(i.date),
                         "breakfast_meal":i.breakfast_meal,
                         "description":i.description
@@ -89,6 +89,7 @@ class Breakfast_details(generics.ListCreateAPIView):
                     return HttpResponse(
                         json.dumps({"status":"success",
                                     "message": f"Details of given input retrieved successfully",
+                                    "total":len(response_data),
                                     "data":response_data}),
                         status=200,
                         content_type="application/json",
@@ -97,7 +98,7 @@ class Breakfast_details(generics.ListCreateAPIView):
             for i in breakfast_data:
                 response_data.append({
                     "breakfast_id":i.pk,
-                    "user_id":f'{i.user.first_name} {i.user.last_name}',
+                    "full_name":f'{i.user.first_name} {i.user.last_name}',
                     "date":str(i.date),
                     "breakfast_meal":i.breakfast_meal,
                     "description":i.description
@@ -105,7 +106,8 @@ class Breakfast_details(generics.ListCreateAPIView):
             logger.info(f"Breakfast details retrieved successfully")
             return HttpResponse(
                 json.dumps({"status":"success",
-                            "message": f"Breakfast details retrieved successfully",
+                            "message": "Breakfast details retrieved successfully",
+                            "total":len(response_data),
                             "data":response_data}),
                 status=200,
                 content_type="application/json",
@@ -147,7 +149,7 @@ class Lunch_details(generics.ListCreateAPIView):
             logger.info(f"Lunch added successfully")
             return HttpResponse(
                 json.dumps({"status":"success",
-                            "message": f"Lunch added successfully"}),
+                            "message": "Lunch item added successfully"}),
                 status=200,
                 content_type="application/json",
             )
@@ -174,7 +176,7 @@ class Lunch_details(generics.ListCreateAPIView):
                 for i in person_date_lunch_obj:
                     response_data.append({
                         "lunch_id":i.pk,
-                        "user_id":f'{i.user.first_name} {i.user.last_name}',
+                        "full_name":f'{i.user.first_name} {i.user.last_name}',
                         "date":str(i.date),
                         "lunch_menu":i.lunch_menu,
                         "description":i.description
@@ -194,6 +196,7 @@ class Lunch_details(generics.ListCreateAPIView):
                     return HttpResponse(
                         json.dumps({"status":"success",
                                     "message": f"Details of given input retrieved successfully",
+                                    "total":len(response_data),
                                     "data":response_data}),
                         status=200,
                         content_type="application/json",
@@ -202,7 +205,7 @@ class Lunch_details(generics.ListCreateAPIView):
             for i in lunch_data:
                 response_data.append({
                     "lunch_id":i.pk,
-                    "user_id":f'{i.user.first_name} {i.user.last_name}',
+                    "full_name":f'{i.user.first_name} {i.user.last_name}',
                     "date":str(i.date),
                     "lunch_menu":i.lunch_menu,
                     "description":i.description
@@ -211,6 +214,7 @@ class Lunch_details(generics.ListCreateAPIView):
             return HttpResponse(
                 json.dumps({"status":"success",
                             "message": f"Lunch details retrieved successfully",
+                            "total":len(response_data),
                             "data":response_data}),
                 status=200,
                 content_type="application/json",
@@ -249,10 +253,10 @@ class Dinner_details(generics.ListCreateAPIView):
                 description = description
             )
             dinner_details_obj.save()
-            logger.info(f"Dinner added successfully")
+            logger.info(f"Dinner item added successfully")
             return HttpResponse(
                 json.dumps({"status":"success",
-                            "message": f"Dinner added successfully"}),
+                            "message": "Dinner added successfully"}),
                 status=200,
                 content_type="application/json",
             )
@@ -279,7 +283,7 @@ class Dinner_details(generics.ListCreateAPIView):
                 for i in person_date_dinner_obj:
                     response_data.append({
                         "dinner_id":i.pk,
-                        "user_id":f'{i.user.first_name} {i.user.last_name}',
+                        "full_name":f'{i.user.first_name} {i.user.last_name}',
                         "date":str(i.date),
                         "dinner_menu":i.dinner_menu,
                         "description":i.description
@@ -299,6 +303,7 @@ class Dinner_details(generics.ListCreateAPIView):
                     return HttpResponse(
                         json.dumps({"status":"success",
                                     "message": f"Details of given input retrieved successfully",
+                                    "total":len(response_data),
                                     "data":response_data}),
                         status=200,
                         content_type="application/json",
@@ -307,7 +312,7 @@ class Dinner_details(generics.ListCreateAPIView):
             for i in dinner_data:
                 response_data.append({
                     "dinner_id":i.pk,
-                    "user_id":f'{i.user.first_name} {i.user.last_name}',
+                    "full_name":f'{i.user.first_name} {i.user.last_name}',
                     "date":str(i.date),
                     "dinner_menu":i.dinner_menu,
                     "description":i.description
@@ -316,6 +321,7 @@ class Dinner_details(generics.ListCreateAPIView):
             return HttpResponse(
                 json.dumps({"status":"success",
                             "message": f"Dinner details retrieved successfully",
+                            "total":len(response_data),
                             "data":response_data}),
                 status=200,
                 content_type="application/json",

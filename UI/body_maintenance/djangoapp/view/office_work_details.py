@@ -78,7 +78,7 @@ class Office_working_details(generics.ListCreateAPIView):
                     total_working_time = end_time - start_time
                     response_data.append({
                         "office_id":i.pk,
-                        "user_id":f'{i.user.first_name} {i.user.last_name}',
+                        "full_name":f'{i.user.first_name} {i.user.last_name}',
                         "date":str(i.date),
                         "start_time":str(i.start_time),
                         "end_time":str(i.end_time),
@@ -102,6 +102,7 @@ class Office_working_details(generics.ListCreateAPIView):
                     return HttpResponse(
                         json.dumps({"status":"success",
                                     "message": f"Details of given input retrieved successfully",
+                                    "total":len(response_data),
                                     "data":response_data}),
                         status=200,
                         content_type="application/json",
@@ -113,7 +114,7 @@ class Office_working_details(generics.ListCreateAPIView):
                 total_working_time = end_time - start_time
                 response_data.append({
                     "office_id":i.pk,
-                    "user_id":f'{i.user.first_name} {i.user.last_name}',
+                    "full_name":f'{i.user.first_name} {i.user.last_name}',
                     "date":str(i.date),
                     "start_time":str(start_time),
                     "end_time":str(end_time),
@@ -125,7 +126,8 @@ class Office_working_details(generics.ListCreateAPIView):
             logger.info(f"Working in office details retrieved successfully")
             return HttpResponse(
                 json.dumps({"status":"success",
-                            "message": f"Working in office details retrieved successfully",
+                            "message": f"Office work details retrieved successfully",
+                            "total":len(response_data),
                             "data":response_data}),
                 status=200,
                 content_type="application/json",

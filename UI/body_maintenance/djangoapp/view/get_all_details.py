@@ -54,7 +54,8 @@ class Get_all_details(generics.ListCreateAPIView):
                 logger.info(f"Details of given input retrieved successfully")
                 return HttpResponse(
                     json.dumps({"status":"success",
-                                "message": f"Details of given input retrieved successfully",
+                                "message": "Details of given input retrieved successfully",
+                                "total":len(response_data),
                                 "data":response_data}),
                     status=200,
                     content_type="application/json",

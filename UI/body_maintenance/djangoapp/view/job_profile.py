@@ -90,7 +90,7 @@ class Job_profile_details(generics.ListCreateAPIView):
                 for i in person_date_job_profile_obj:
                     response_data.append({
                         "job_profile_id":i.pk,
-                        "user_id":f'{i.user.first_name} {i.user.last_name}',
+                        "full_name":f'{i.user.first_name} {i.user.last_name}',
                         "date":str(i.date),
                         "company_name":i.company_name,
                         "is_referral":i.is_referral,
@@ -113,7 +113,8 @@ class Job_profile_details(generics.ListCreateAPIView):
                     logger.info(f"Details of given input retrieved successfully")
                     return HttpResponse(
                         json.dumps({"status":"success",
-                                    "message": f"Details of given input retrieved successfully",
+                                    "message": "Details of given input retrieved successfully",
+                                    "total":len(response_data),
                                     "data":response_data}),
                         status=200,
                         content_type="application/json",
@@ -134,7 +135,8 @@ class Job_profile_details(generics.ListCreateAPIView):
             logger.info(f"Job profile details retrieved successfully")
             return HttpResponse(
                 json.dumps({"status":"success",
-                            "message": f"Job profile details retrieved successfully",
+                            "message": "Job profile details retrieved successfully",
+                            "total":len(response_data),
                             "data":response_data}),
                 status=200,
                 content_type="application/json",

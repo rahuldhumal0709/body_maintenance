@@ -34,7 +34,11 @@ class Person_details(generics.ListCreateAPIView):
             height = data["height"]
             education = data["education"]
             permanent_address = data["permanent_address"]
-            current_address = data["current_address"]
+            is_current_address_permanent_address = data['is_current_address_permanent_address']
+            if is_current_address_permanent_address:
+                current_address = permanent_address
+            else:
+                current_address = data["current_address"]
             marital_status = data["marital_status"]
             person_details_obj = bm_person_info(
                 user_id = user_id,
@@ -71,6 +75,46 @@ class Person_details(generics.ListCreateAPIView):
         """Getting Person Details"""
         try:
             response_data = []
+            data = request.GET
+            isinstance_obj = isinstance(data, dict)
+            if isinstance_obj and data:
+                filter_data = {key: data[key] for key in data.keys()}
+                person_data_obj = bm_person_info.objects.filter(**filter_data).order_by('id')
+                for i in person_data_obj:
+                    gender_choices = dict(i._meta.get_field('gender').choices)
+                    gender = gender_choices.get(i.gender)
+                    response_data.append({
+                        "person_id":i.pk,
+                        "user_name":i.user.username,
+                        "full_name":f'{i.first_name} {i.last_name}',
+                        "date_of_birth":str(i.dob),
+                        "gender":gender,
+                        "height":f"{i.height} cm",
+                        "education":i.education,
+                        "permanent_address":i.permanent_address,
+                        "current_address":i.current_address,
+                        "marital_status":i.marital_status
+                })
+                if len(response_data)==0:
+                    logger.info(f"Details of given input not found")
+                    return HttpResponse(
+                    json.dumps({"status":"failed",
+                                "message": "Details of given input not found",
+                                "data":response_data}),
+                    status=200,
+                    content_type="application/json",
+                    )
+                
+                else:
+                    logger.info(f"Details of given input retrieved successfully")
+                    return HttpResponse(
+                        json.dumps({"status":"success",
+                                    "message": f"Details of given input retrieved successfully",
+                                    "total":len(response_data),
+                                    "data":response_data}),
+                        status=200,
+                        content_type="application/json",
+                    )
             person_data = bm_person_info.objects.all()
             for i in person_data:
                 gender_choices = dict(i._meta.get_field('gender').choices)
@@ -91,6 +135,7 @@ class Person_details(generics.ListCreateAPIView):
             return HttpResponse(
                 json.dumps({"status":"success",
                             "message": f"Details retrieved successfully",
+                            "total":len(response_data),
                             "data":response_data}),
                 status=200,
                 content_type="application/json",
@@ -156,7 +201,7 @@ class Weight_details(generics.ListCreateAPIView):
                 for i in person_weight_obj:
                     response_data.append({
                         "weight_id":i.pk,
-                        "user_id":f'{i.user.first_name} {i.user.last_name}',
+                        "full_name":f'{i.user.first_name} {i.user.last_name}',
                         "date":str(i.date),
                         "weight":i.weight
                         
@@ -176,6 +221,7 @@ class Weight_details(generics.ListCreateAPIView):
                     return HttpResponse(
                         json.dumps({"status":"success",
                                     "message": f"Details of given input retrieved successfully",
+                                    "total":len(response_data),
                                     "data":response_data}),
                         status=200,
                         content_type="application/json",
@@ -184,7 +230,7 @@ class Weight_details(generics.ListCreateAPIView):
             for i in weight_data:
                 response_data.append({
                     "weight_id":i.pk,
-                    "user_id":f'{i.user.first_name} {i.user.last_name}',
+                    "full_name":f'{i.user.first_name} {i.user.last_name}',
                     "date":str(i.date),
                     "weight":i.weight
                     
@@ -193,6 +239,7 @@ class Weight_details(generics.ListCreateAPIView):
             return HttpResponse(
                 json.dumps({"status":"success",
                             "message": f"Weight retrieved successfully",
+                            "total":len(response_data),
                             "data":response_data}),
                 status=200,
                 content_type="application/json",
