@@ -8,6 +8,7 @@ from .view.bmi_details_view import *
 from .view.subject_details_view import *
 from .view.office_work_details import *
 from .view.job_profile import *
+from .view.generate_otp import *
 
 
 app_name = 'djangoapp'
@@ -29,4 +30,5 @@ urlpatterns = [
     path('subject_all_details',Subject_all_details.as_view(), name='subject_all_details'),
     path('office_working_details',Office_working_details.as_view(), name='office_working_details'),
     path('job_profile_details',Job_profile_details.as_view(), name='job_profile_details'),
+    path('generate_otp',GenerateOTPView.as_view(), name='generate_otp'),
 ]

@@ -1,7 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
+import datetime
 
 # Create your models here.
+def get_current_dt():
+    return datetime.datetime.now()
+
+def get_current_date():
+    return datetime.datetime.now().date()
+
+
 class bm_person_info(models.Model):
     MALE = 'M'
     FEMALE = 'F'
@@ -34,21 +42,21 @@ class bm_person_info(models.Model):
 
 class bm_breakfast(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    date = models.DateField(null=True)
+    date = models.DateField(default=get_current_date)
     breakfast_meal = models.CharField(max_length=100)
     description = models.TextField()
     # dish_calories = models.IntegerField()
 
 class bm_lunch(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    date = models.DateField(null=True)
+    date = models.DateField(default=get_current_date)
     lunch_menu = models.CharField(max_length=100)
     description = models.TextField()
     # dish_calories = models.IntegerField()
 
 class bm_dinner(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    date = models.DateField(null=True)
+    date = models.DateField(default=get_current_date)
     dinner_menu = models.CharField(max_length=100)
     description = models.TextField()
     # dish_calories = models.IntegerField()
@@ -60,12 +68,12 @@ class bm_dinner(models.Model):
 
 class bm_weight(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    date = models.DateField(null=True)
+    date = models.DateField(default=get_current_date)
     weight = models.FloatField(help_text="Weight in kg",default=0)
 
 class bm_exercise(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    date = models.DateField(null=True)
+    date = models.DateField(default=get_current_date)
     start_time = models.TimeField()
     end_time = models.TimeField()
     sets_of_parts = models.JSONField()
@@ -73,7 +81,7 @@ class bm_exercise(models.Model):
 
 class bm_bmi(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    date = models.DateField(null=True)
+    date = models.DateField(default=get_current_date)
     height = models.FloatField(help_text="Height in cm")
     weight = models.FloatField(help_text="Weight in kg")
     bmi = models.FloatField(help_text="BMI in kg/m2")
@@ -81,7 +89,7 @@ class bm_bmi(models.Model):
 
 class bm_office(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    date = models.DateField(null=True)
+    date = models.DateField(default=get_current_date)
     start_time = models.TimeField()
     end_time = models.TimeField()
     work = models.CharField(max_length=100)
@@ -93,7 +101,7 @@ class bm_subject_names(models.Model):
 
 class bm_subject_details(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    date = models.DateField(null=True)
+    date = models.DateField(default=get_current_date)
     start_time = models.TimeField()
     end_time = models.TimeField()
     subject_name = models.ForeignKey(bm_subject_names,on_delete=models.CASCADE)
@@ -105,7 +113,7 @@ class bm_subject_details(models.Model):
 
 class bm_job_profile(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    date = models.DateField(null=True)
+    date = models.DateField(default=get_current_date)
     company_name = models.CharField(max_length=100)
     is_referral = models.BooleanField(default=False)
     referral_person_name = models.CharField(null=True,max_length=100)

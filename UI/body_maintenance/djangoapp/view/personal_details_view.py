@@ -138,7 +138,7 @@ class Weight_details(generics.ListCreateAPIView):
         try:
             data = request.data
 
-            user_id = User.objects.get(id=data['user_id']).pk
+            user_id = request.user.pk
             date = data["date"]
             weight_of_person = data["weight"]
             weight_details_obj = bm_weight(

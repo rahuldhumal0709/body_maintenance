@@ -27,8 +27,8 @@ class Exercise_details(generics.ListCreateAPIView):
         try:
             data = request.data
 
-            user_id = User.objects.get(id=data['user_id']).pk
-            date = data["date"]
+            user_id = request.user.pk
+            # date = data["date"]
             start_time = data["start_time"]
             end_time = data["end_time"]
             sets_of_parts = data["sets_of_parts"]
@@ -36,7 +36,6 @@ class Exercise_details(generics.ListCreateAPIView):
 
             exercise_details_obj = bm_exercise(
                 user_id = user_id,
-                date = date,
                 start_time = start_time,
                 end_time = end_time,
                 sets_of_parts = sets_of_parts,
