@@ -9,13 +9,41 @@ from .view.subject_details_view import *
 from .view.office_work_details import *
 from .view.job_profile import *
 from .view.generate_otp import *
-
+from djangoapp.view.add_user_emp_view import *
+from djangoapp.view.forgot_password_view import *
+from djangoapp.view.email_config_views import update_email_configs
+from djangoapp.view.all_configurations_view import *
+from djangoapp.view.access_management import *
+from djangoapp.view.user_profile import *
+from djangoapp.view.email_config_views import *
+from djangoapp.view.location_details_view import *
 
 app_name = 'djangoapp'
 
 urlpatterns = [
-    path('signup/', SignUpView.as_view(), name='signup'),
-    path('signin/', SignInView.as_view(), name='signin'),
+    # --------------------------- User View -------------------------------------
+    path('minda/get_user_profile',get_user_profile,name='minda/get_user_profile'),
+    path('minda/get_all_employee',get_all_employee),
+    path('minda/add_employee_user',add_employee_user.as_view()),
+    path('minda/forgot_password',forgot_password.as_view()),
+    path('minda/set_password',set_password.as_view()),
+    path('minda/get_designation',get_designation.as_view()),
+    path('minda/get_departments',get_departments.as_view()), 
+    path('minda/add_designation',add_designation.as_view()),
+    path('minda/department_config',department_config.as_view()),
+    path('minda/get_user_role',get_user_role.as_view()),
+    # --------------------------------Access Managment-----------------------
+    path('minda/add_module',InjestModuleData.as_view()),
+    path('minda/add_access',UserAccessManagement.as_view()),
+    path('minda/get_access_list',GetAccessList.as_view()),
+    path('minda/get_employee_access_list',GetEmployeeAcessList.as_view()),
+    path('minda/save_dup_access_module',save_dup_access_module,name='minda/save_dup_access_module'),
+    path('minda/get_roles',get_roles.as_view()),
+    path('minda/get_location_details',get_location_details,name = 'add_location_details'),
+    path('minda/add_location_details',add_location_details,name = 'add_location_details'),
+    path('minda/update_email_configs',update_email_configs,name='minda/update_email_configs'),
+    path('minda/add_role',add_role,name='minda/add_role'),
+    path('minda/user_login_status',user_login_status,name='minda/user_login_status'),
     path('person_details', Person_details.as_view(), name='person_details'),
     # path('date_details', Date_details.as_view(), name='date_details'),
     # path('wakeup_sleep_time_details', Wakeup_sleep_time_details.as_view(), name='wakeup_sleep_time_details'),
