@@ -163,10 +163,6 @@ class trac_rework_access(models.Model):
 class module_access(models.Model):
     user = models.ForeignKey(User,on_delete = models.DO_NOTHING) 
     module_access = models.ForeignKey(module_config,on_delete = models.DO_NOTHING)
-
-# class trac_image(models.Model):
-#     product_history = models.ForeignKey(trac_product_history,on_delete=models.CASCADE)
-#     image = models.ImageField()
     
 class EmailConfiguration(models.Model):
     smtp_host = models.CharField(max_length=255, default="smtp-mail.outlook.com")
@@ -198,40 +194,15 @@ class bm_person_info(models.Model):
     current_address = models.CharField(max_length=255)
     marital_status = models.BooleanField()
 
-# class bm_date(models.Model):
-#     date = models.DateField()
+class bm_meal_type(models.Model):
+    name = models.CharField(max_length=50)
 
-# class bm_daily_wakeup_sleep_time(models.Model):
-#     user = models.ForeignKey(User,on_delete=models.CASCADE)
-#     date = models.DateField(null=True)
-#     wakeup_time = models.TimeField()
-#     sleep_time = models.TimeField(null=True)
-
-class bm_breakfast(models.Model):
+class bm_meal(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     date = models.DateField(default=get_current_date)
-    breakfast_meal = models.CharField(max_length=100)
+    meal_type = models.ForeignKey(bm_meal_type,on_delete=models.CASCADE)
+    meal = models.CharField(max_length=100)
     description = models.TextField()
-    # dish_calories = models.IntegerField()
-
-class bm_lunch(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    date = models.DateField(default=get_current_date)
-    lunch_menu = models.CharField(max_length=100)
-    description = models.TextField()
-    # dish_calories = models.IntegerField()
-
-class bm_dinner(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    date = models.DateField(default=get_current_date)
-    dinner_menu = models.CharField(max_length=100)
-    description = models.TextField()
-    # dish_calories = models.IntegerField()
-
-# class bm_total_calories(models.Model):
-#     user = models.ForeignKey(User,on_delete=models.CASCADE)
-#     date = models.DateField(null=True)
-#     total_calories = models.IntegerField()
 
 class bm_weight(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -287,16 +258,6 @@ class bm_job_profile(models.Model):
     platform_name = models.CharField(null=True,max_length=100)
     for_which_role = models.CharField(null=True,max_length=100)
     resume = models.FileField(upload_to='resume',default='')
-
-# class banking(models.Model):
-#     user = models.ForeignKey(User,on_delete=models.CASCADE)
-#     to = models.CharField(max_length=100)
-#     actual_amount = models.IntegerField()
-#     credited_date = models.DateField()
-#     is_emi = models.BooleanField()
-#     total_emi = models.IntegerField()
-#     emi_amount =  models.IntegerField()
-#     due_date = models.DateField()
 
 #--------------------------------------Logging------------------------------------------
 class EventLog(models.Model):

@@ -1,29 +1,4 @@
-import datetime
-import json
-from djangoapp.utilities.validation import *
-import traceback
-from django.db import connection
-from django.http import HttpResponse, JsonResponse
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import generics
-from rest_framework.views import APIView
-from djangoapp.utilities.validation import *
-from djangoapp.models import *
-from django.db.models import Q
-import logging
-from django.conf import settings
-import base64
-from rest_framework.decorators import api_view
-from django.views.decorators.csrf import csrf_exempt
-from djangoapp.utilities.send_acknowledge_email_view import *
-from djangoapp.utilities.generate_otp_view import *
-import random
-from django.utils import timezone
-
-logger = logging.getLogger(__name__)
-logger = logging.getLogger("django")
-
-
+from djangoapp.utilities.view_file_import import *
 
 @csrf_exempt
 @api_view(['GET'])
@@ -58,22 +33,14 @@ def get_user_profile(request):
                 "employee_role": data_list1,
             }
         )
-
-        logger.info("data retrieved successfully")
+        msg = "User profile retrieved successfully"
+        logger.info(msg)
         return HttpResponse(
             json.dumps(
-                {
-                    "status": "success",
-                    "message": f"Tickets User Profile retrieved successfully",
-                    "data": data_list,
-                }
-            )
-        )
+                {"status": "success","message": msg,"data": data_list}))
     except Exception as msg:
         logger.error(msg)
         traceback.print_exc()
         return HttpResponse(
             json.dumps(
-                {"status": "failed", "message": "please contact administrator"}
-            )
-        )
+                {"status": "Failed", "message": backend_issue}))

@@ -1,19 +1,8 @@
-import json
-from djangoapp.utilities.validation import *
-import traceback
-from django.http import HttpResponse
-from rest_framework import generics
-from djangoapp.utilities.validation import *
-from djangoapp.models import *
-import logging
+from djangoapp.utilities.view_file_import import *
 from djangoapp.utilities.send_acknowledge_email_view import *
 from djangoapp.utilities.generate_otp_view import *
 from djangoapp.utilities.notification_view import *
 from django.utils import timezone
-
-logger = logging.getLogger(__name__)
-logger = logging.getLogger("django")
-
 
 class forgot_password(generics.ListCreateAPIView):
     """for forgot password"""

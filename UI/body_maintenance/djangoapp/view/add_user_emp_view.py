@@ -1,19 +1,8 @@
-import json
-from djangoapp.utilities.validation import *
-import traceback
-from django.http import HttpResponse
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import generics
+from djangoapp.utilities.view_file_import import *
 from djangoapp.utilities.validation import *
 import threading
-from djangoapp.models import *
 from django.db.models import Q
-import logging
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view
 from djangoapp.utilities.send_acknowledge_email_view import *
-import math, ast
 
 logger = logging.getLogger(__name__)
 logger = logging.getLogger("django")

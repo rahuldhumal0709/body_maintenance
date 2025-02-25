@@ -1,25 +1,4 @@
-from rest_framework import generics
-import json
-from django.db import connection
-
-# from .utilities.sms_utilities import SMSClass
-from djangoapp.models import *
-import pandas as pd
-from rest_framework.permissions import IsAuthenticated
-import datetime
-from django.conf import settings
-from datetime import timedelta
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view
-from djangoapp.utilities.user_auth import *
-import traceback
-from django.http import HttpResponse
-import logging
-
-# from djangoapp.utilities.validations_util import *
-logger = logging.getLogger(__name__)
-logger = logging.getLogger("django")
-
+from djangoapp.utilities.view_file_import import *
 
 class InjestModuleData(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)

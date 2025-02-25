@@ -1,25 +1,4 @@
-import datetime
-import json
-import os
-from django.conf import settings
-import traceback
-from django.db import connection
-from django.http import HttpResponse, JsonResponse
-from psycopg2 import cursor
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import generics
-from rest_framework.views import APIView
-from djangoapp.models import *
-from rest_framework import status
-import datetime
-from rest_framework.response import Response
-import logging
-
-logger = logging.getLogger(__name__)
-logger = logging.getLogger("django")
-
-#=================================== job_profile details =============================================================
-
+from djangoapp.utilities.view_file_import import *
 class Get_all_details(generics.ListCreateAPIView):
     """Get all details of person or using date"""
 
@@ -31,7 +10,7 @@ class Get_all_details(generics.ListCreateAPIView):
             if 'person_id' in data:
                 person_id = data['person_id']
                 person_info = bm_person_info.objects.filter(id=person_id)
-                brakfast_info = bm_breakfast.objects.filter(person_id=person_id).order_by('id')
+                brakfast_info = bm_meal.objects.filter(person_id=person_id).order_by('id')
                 sql_query = """SELECT sc.station_id, sc.station_name, COUNT(pr.status) AS fail_count
                                 FROM djangoapp_trac_static_config sc
                                 INNER JOIN djangoapp_trac_product_history pr ON sc.id = pr.station_id

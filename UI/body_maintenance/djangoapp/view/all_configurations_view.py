@@ -1,21 +1,5 @@
-import json
-import logging
-import traceback
-
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
+from djangoapp.utilities.view_file_import import *
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import generics
-from rest_framework.decorators import api_view
-
-from djangoapp.utilities.validation import *
-from djangoapp.models import *
-from djangoapp.utilities.user_auth import Auth
-from djangoapp.utilities.send_acknowledge_email_view import *
-
-logger = logging.getLogger(__name__)
-logger = logging.getLogger("django")
-
             
 class department_config(generics.ListCreateAPIView):
     """for adding & deleting department"""

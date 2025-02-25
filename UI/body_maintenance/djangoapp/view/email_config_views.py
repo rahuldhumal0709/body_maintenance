@@ -1,12 +1,6 @@
-import logging
-import traceback
-import json
-from django.http import HttpResponse
-from rest_framework.decorators import api_view
-from django.views.decorators.csrf import csrf_exempt
+from djangoapp.utilities.view_file_import import *
 from djangoapp.models import EmailConfiguration
 from djangoapp.utilities.email_config import load_email_configuration
-from djangoapp.utilities.user_auth import Auth
 from djangoapp.utilities.access_manager import email_authenticate_access
 from djangoapp.models import EmailAccessPassword,InterlockAccessPassword
 
